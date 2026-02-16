@@ -371,7 +371,9 @@ int scheduling_point_feasibility(U32_T numServices, U32_T period[],
       for (k=0; k<=i; k++) 
       {
 	  // find available CPU windows and take them
-          for (l=1; l <= (floor((double)period[i]/(double)period[k])); l++)
+      // all I must change here is from period to deadline to ensure all higher priotity interfering tasks still
+      // allow for completion of the task under test before the task's deadline.
+          for (l=1; l <= (floor((double)deadline[i]/(double)period[k])); l++)
           {
                temp=0;
 
