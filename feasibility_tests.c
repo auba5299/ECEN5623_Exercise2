@@ -72,6 +72,8 @@ U32_T ex3_wcet[] = {1, 2, 3};
 U32_T ex4_period[] = {2, 4, 16};
 U32_T ex4_wcet[] = {1, 1, 4};
 
+
+//////BEGIN PART 2 WHERE MUST TEST RM, EDF, AND LLF//////
 // EX5: U=1.0
 U32_T ex5_period[] = {2, 5, 10};
 U32_T ex5_wcet[] = {1, 2, 1};
@@ -94,6 +96,7 @@ U32_T ex9_wcet[] = {1, 2, 4, 6};
 int completion_time_feasibility(U32_T numServices, U32_T period[], U32_T wcet[], U32_T deadline[]);
 int scheduling_point_feasibility(U32_T numServices, U32_T period[], U32_T wcet[], U32_T deadline[]);
 int rate_monotonic_least_upper_bound(U32_T numServices, U32_T period[], U32_T wcet[], U32_T deadline[]);
+int utilization_100_test(U32_T numServices, U32_T period[], U32_T wcet[], U32_T deadline[]);
 
 
 int main(void)
@@ -289,7 +292,17 @@ int rate_monotonic_least_upper_bound(U32_T numServices, U32_T period[], U32_T wc
 	  return FALSE;
 }
 
-
+/* The completion‑time feasibility test computes the worst‑case response time
+ * for each task by accounting for interference from all higher‑priority tasks.
+ * We begin with an initial estimate equal to the sum of execution times for
+ * the task and all higher‑priority tasks. We then iteratively add additional
+ * interference based on how many times each higher‑priority task can release
+ * within the current response‑time estimate. This process continues until the
+ * value converges, giving the worst‑case completion time under maximum load.
+ * If this final response time does not exceed the task’s deadline, the task
+ * is schedulable under fixed‑priority (RM) analysis. NOTE: I had an AI revise this comment as 
+ * I was getting a bit wordy but it matches my thoughts and is based on my description.
+ */
 int completion_time_feasibility(U32_T numServices, U32_T period[], U32_T wcet[], U32_T deadline[])
 {
   int i, j;
@@ -300,7 +313,7 @@ int completion_time_feasibility(U32_T numServices, U32_T period[], U32_T wcet[],
    
   //printf("numServices=%d\n", numServices);
  
-  // For all services in the analysis 
+  // For all services in the analysis - why the double loop?
   for (i=0; i < numServices; i++)
   {
        an=0; anext=0;
@@ -338,7 +351,12 @@ int completion_time_feasibility(U32_T numServices, U32_T period[], U32_T wcet[],
   return set_feasible;
 }
 
-
+/* To the best of my knowledge... The scheduling‑point feasibility test examines all critical instants, which occur at multiples of higher‑priority task periods, up to the
+ * period of the task being analyzed. At each such time t, the test checks whether the processor can supply enough CPU time to handle all jobs
+ * released by tasks of equal or higher priority. The right side of the inequality is the available CPU time t, while the left side is the sum
+ * of each higher‑priority task’s execution time multiplied by the number of times it can release within that window. If demand is less than or
+ * equal to supply at any scheduling point, the task is feasible; if not, the task set is infeasible under fixed‑priority scheduling.
+ */
 int scheduling_point_feasibility(U32_T numServices, U32_T period[], 
 				 U32_T wcet[], U32_T deadline[])
 {
@@ -373,4 +391,26 @@ int scheduling_point_feasibility(U32_T numServices, U32_T period[],
       if (!status) rc=FALSE;
    }
    return rc;
+}
+
+/*This is a simple function to compare utilization against 100%. For dynamic priority algorithms such as EDF and LLF,
+* this is a necessary and sufficient condition for feasibility. If under 100% utilization, the system is feasible using a
+* EDF or LLF shceduler. If over 100% the schedule is infeasible.
+*/
+int utilization_100_test(U32_T numServices, U32_T period[], U32_T wcet[], U32_T deadline[]){
+    
+    double utility_sum=0.0;
+    int idx;
+
+    // Sum the C(i) over the T(i) for all services
+    for(idx=0; idx < numServices; idx++)
+    {
+        utility_sum += ((double)wcet[idx] / (double)period[idx]);
+    }
+
+    // Compare the utilty to 1.0 and return feasibility if under this value
+    if(utility_sum <= 1.0)
+        return TRUE;
+    else
+        return FALSE;
 }
