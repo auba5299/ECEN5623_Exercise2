@@ -79,6 +79,10 @@ U32_T ex5_period[] = {2, 5, 10};
 U32_T ex5_wcet[] = {1, 2, 1};
 
 // EX6: DEADLINE MONOTONIC EXAMPLE
+U32_T ex6_period[] = {2, 5, 7, 13};
+U32_T ex6_deadline[] = {2, 3, 7, 15};
+U32_T ex6_wcet[] = {1, 1, 1, 2};
+
 
 // EX7: U=1.0
 U32_T ex7_period[] = {3, 5, 15};
@@ -263,7 +267,126 @@ int main(void)
         printf("RM LUB INFEASIBLE\n");
     printf("\n");
 
+// *************************BEGIN STUDENT ADDED MAIN SCRIPT PORTIONS********************************************
+// TESTS FOR SCHEDULES 5-9
+    printf("\n\n");
+    printf("******** Completion Test, Scheduling Point, RM LUB, and LLF & EDF Feasibility Tests for Sched 5, 7-9\n\n");
+    printf("Note: Sched 6 is a Deadline Monotonic example and is handled separately\n");
+    printf("Note2: The test for LLF / EDF feasibility is to simply ensure it is under 100%% utilization, which is N&S for these.\n\n");
+
+// EXAMPLE 5
+    printf("Ex-5 U=%4.2f%% (C1=1, C2=2, C3=1; T1=2, T2=5, T3=10; T=D): ",
+		   ((1.0/2.0)*100.0 + (2.0/5.0)*100.0 + (1.0/10.0)*100.0));
+	numServices = 3;
+    if(completion_time_feasibility(numServices, ex5_period, ex5_wcet, ex5_period) == TRUE)
+        printf("FEASIBLE\n");
+    else
+        printf("INFEASIBLE\n");
+    if(scheduling_point_feasibility(numServices, ex5_period, ex5_wcet, ex5_period) == TRUE)
+        printf("FEASIBLE\n");
+    else
+        printf("INFEASIBLE\n");
+    if(rate_monotonic_least_upper_bound(numServices, ex5_period, ex5_wcet, ex5_period) == TRUE)
+        printf("RM LUB FEASIBLE\n");
+    else
+        printf("RM LUB INFEASIBLE\n");
+    if(utilization_100_test(numServices, ex5_period, ex5_wcet, ex5_period) == TRUE)
+        printf("EDF and LLF FEASIBLE\n");
+    else
+        printf("EDF and LLF INFEASIBLE\n");
+    printf("\n");
+
+// EXAMPLE 7
+    printf("Ex-7 U=%4.2f%% (C1=1, C2=2, C3=4; T1=3, T2=5, T3=15; T=D): ",
+		   ((1.0/3.0)*100.0 + (2.0/5.0)*100.0 + (4.0/15.0)*100.0));
+	numServices = 3;
+    if(completion_time_feasibility(numServices, ex7_period, ex7_wcet, ex7_period) == TRUE)
+        printf("FEASIBLE\n");
+    else
+        printf("INFEASIBLE\n");
+    if(scheduling_point_feasibility(numServices, ex7_period, ex7_wcet, ex7_period) == TRUE)
+        printf("FEASIBLE\n");
+    else
+        printf("INFEASIBLE\n");
+    if(rate_monotonic_least_upper_bound(numServices, ex7_period, ex7_wcet, ex7_period) == TRUE)
+        printf("RM LUB FEASIBLE\n");
+    else
+        printf("RM LUB INFEASIBLE\n");
+    if(utilization_100_test(numServices, ex7_period, ex7_wcet, ex7_period) == TRUE)
+        printf("EDF and LLF FEASIBLE\n");
+    else
+        printf("EDF and LLF INFEASIBLE\n");
+    printf("\n");
+
+// EXAMPLE 8
+    printf("Ex-8 U=%4.2f%% (C1=1, C2=1, C3=1, C4=2; T1=2, T2=5, T3=7, T4=13; T=D): ",
+		   ((1.0/2.0)*100.0 + (1.0/5.0)*100.0 + (1.0/7.0)*100.0 + (2.0/13.0)*100.0));
+	numServices = 4;
+    if(completion_time_feasibility(numServices, ex8_period, ex8_wcet, ex8_period) == TRUE)
+        printf("FEASIBLE\n");
+    else
+        printf("INFEASIBLE\n");
+    if(scheduling_point_feasibility(numServices, ex8_period, ex8_wcet, ex8_period) == TRUE)
+        printf("FEASIBLE\n");
+    else
+        printf("INFEASIBLE\n");
+    if(rate_monotonic_least_upper_bound(numServices, ex8_period, ex8_wcet, ex8_period) == TRUE)
+        printf("RM LUB FEASIBLE\n");
+    else
+        printf("RM LUB INFEASIBLE\n");
+    if(utilization_100_test(numServices, ex8_period, ex8_wcet, ex8_period) == TRUE)
+        printf("EDF and LLF FEASIBLE\n");
+    else
+        printf("EDF and LLF INFEASIBLE\n");
+    printf("\n");
+
+// EXAMPLE 9
+    printf("Ex-9 U=%4.2f%% (C1=1, C2=2, C3=4, C4=6; T1=6, T2=8, T3=12, T4=24; T=D): ",
+		   ((1.0/6.0)*100.0 + (2.0/8.0)*100.0 + (4.0/12.0)*100.0 + (6.0/24.0)*100.0));
+	numServices = 4;
+    if(completion_time_feasibility(numServices, ex9_period, ex9_wcet, ex9_period) == TRUE)
+        printf("FEASIBLE\n");
+    else
+        printf("INFEASIBLE\n");
+    if(scheduling_point_feasibility(numServices, ex9_period, ex9_wcet, ex9_period) == TRUE)
+        printf("FEASIBLE\n");
+    else
+        printf("INFEASIBLE\n");
+    if(rate_monotonic_least_upper_bound(numServices, ex9_period, ex9_wcet, ex9_period) == TRUE)
+        printf("RM LUB FEASIBLE\n");
+    else
+        printf("RM LUB INFEASIBLE\n");
+    if(utilization_100_test(numServices, ex9_period, ex9_wcet, ex9_period) == TRUE)
+        printf("EDF and LLF FEASIBLE\n");
+    else
+        printf("EDF and LLF INFEASIBLE\n");
+    printf("\n");
+
+//EXAMPLE 6
+printf("Ex-6 U=%4.2f%% (C1=1, C2=1, C3=1, C4=2; T1=2, T2=5, T3=7, T4=13; D1=2, D2=3, D3=7, D4=15): ",
+		   ((1.0/2.0)*100.0 + (1.0/5.0)*100.0 + (1.0/7.0)*100.0 + (2.0/13.0)*100.0));
+	numServices = 4;
+    /*Analyze as deadline monotonic in feasibility tests by passing deadline array to functions below and ordering such that
+    * shortest deadline has highest priority. Functions have been modified (well one line in sp function) to accomidate.
+    */
+    if(completion_time_feasibility(numServices, ex6_period, ex6_wcet, ex6_deadline) == TRUE)
+        printf("FEASIBLE\n");
+    else
+        printf("INFEASIBLE\n");
+    if(scheduling_point_feasibility(numServices, ex6_period, ex6_wcet, ex6_deadline) == TRUE)
+        printf("FEASIBLE\n");
+    else
+        printf("INFEASIBLE\n");
+    if(rate_monotonic_least_upper_bound(numServices, ex6_period, ex6_wcet, ex6_deadline) == TRUE)
+        printf("RM LUB FEASIBLE\n");
+    else
+        printf("RM LUB INFEASIBLE\n");
+    if(dm_quick_test(numServices, ex6_wcet, ex6_period, ex6_deadline) == TRUE)
+        printf("DM Quick Test FEASIBLE\n");
+    else
+        printf("DM Quick Test INFEASIBLE\n");
 }
+
 
 
 int rate_monotonic_least_upper_bound(U32_T numServices, U32_T period[], U32_T wcet[], U32_T deadline[])
@@ -303,7 +426,11 @@ int rate_monotonic_least_upper_bound(U32_T numServices, U32_T period[], U32_T wc
  * is schedulable under fixed‑priority (RM) analysis. NOTE: I had an AI revise this comment as 
  * I was getting a bit wordy but it matches my thoughts and is based on my description.
  */
-int completion_time_feasibility(U32_T numServices, U32_T period[], U32_T wcet[], U32_T deadline[])
+
+ /* CHANGE NOTE: This function works for DM and RM as long as they are ordered correctly for the corresponding policy. 
+  * No change was needed in this function, for DM applicability, just must order as shortest deadline has the highest priority.  This is because the function simply accounts for interference from higher priority tasks, and if the order of the tasks is correct for the policy, then the function will work for either RM or DM.
+  */
+ int completion_time_feasibility(U32_T numServices, U32_T period[], U32_T wcet[], U32_T deadline[])
 {
   int i, j;
   U32_T an, anext;
@@ -357,6 +484,10 @@ int completion_time_feasibility(U32_T numServices, U32_T period[], U32_T wcet[],
  * of each higher‑priority task’s execution time multiplied by the number of times it can release within that window. If demand is less than or
  * equal to supply at any scheduling point, the task is feasible; if not, the task set is infeasible under fixed‑priority scheduling.
  */
+
+ /* CHANGE NOTE: This function works for RM and DM policy as long as the services are ordered correctly for the policy in use.
+ *  This is shortest period for RM and shortest deadline for DM. The only modification to the function was on line 410, note there. 
+ */
 int scheduling_point_feasibility(U32_T numServices, U32_T period[], 
 				 U32_T wcet[], U32_T deadline[])
 {
@@ -372,7 +503,7 @@ int scheduling_point_feasibility(U32_T numServices, U32_T period[],
       {
 	  // find available CPU windows and take them
       // all I must change here is from period to deadline to ensure all higher priotity interfering tasks still
-      // allow for completion of the task under test before the task's deadline.
+      // allow for completion of the task under test before the task's deadline instead of its period.
           for (l=1; l <= (floor((double)deadline[i]/(double)period[k])); l++)
           {
                temp=0;
@@ -399,7 +530,7 @@ int scheduling_point_feasibility(U32_T numServices, U32_T period[],
 * this is a necessary and sufficient condition for feasibility. If under 100% utilization, the system is feasible using a
 * EDF or LLF shceduler. If over 100% the schedule is infeasible.
 */
-int utilization_100_test(U32_T numServices, U32_T period[], U32_T wcet[], U32_T deadline[]){
+int utilization_100_test(U32_T numServices, U32_T period[], U32_T wcet[]){
     
     double utility_sum=0.0;
     int idx;
@@ -415,4 +546,41 @@ int utilization_100_test(U32_T numServices, U32_T period[], U32_T wcet[], U32_T 
         return TRUE;
     else
         return FALSE;
+}
+/* This function below implements equation 3.14 from the textbook and is a sufficient test to prove that the deadline monotonic
+*  schedule is feasible. It is only sufficient like the LUB and is not necessary (i.e. proves will work but fails to prove will not work).
+*  I was a little unclear on our reqs so I modified the feasibility tests as noted in them, and added this as well. I had a small error an 
+*  AI helped me find and fix since I was a bit tired, but I understand the test and it is based on the same principle as the completion time test, but with a different 
+*  equation. It accounts for interference from higher priority tasks, but instead of iteratively computing the response time, it simply computes 
+*  the demand over the deadline interval and compares it to 1.0.
+*/
+int dm_quick_test(U32_T numServices, U32_T wcet[], U32_T period[], U32_T deadline[])
+{
+    for (int i = 0; i < numServices; i++)
+    {
+        double Ci = (double)wcet[i];
+        double Di = (double)deadline[i];
+
+        // compute interference from all higher‑priority tasks
+        double Ii = 0.0;
+
+        for (int hp = 0; hp < i; hp++)
+        {
+            double Tj = (double)period[hp];
+            double Cj = (double)wcet[hp];
+
+            // number of releases of task hp inside window Di
+            double nj = ceil(Di / Tj);
+
+            Ii += nj * Cj;
+        }
+
+        // normalized demand test
+        double lhs = (Ci + Ii) / Di;
+
+        if (lhs > 1.0)
+            return FALSE;   // fails sufficient test
+    }
+
+    return TRUE;            // passes sufficient test
 }
