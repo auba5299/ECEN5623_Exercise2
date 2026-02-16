@@ -100,8 +100,8 @@ U32_T ex9_wcet[] = {1, 2, 4, 6};
 int completion_time_feasibility(U32_T numServices, U32_T period[], U32_T wcet[], U32_T deadline[]);
 int scheduling_point_feasibility(U32_T numServices, U32_T period[], U32_T wcet[], U32_T deadline[]);
 int rate_monotonic_least_upper_bound(U32_T numServices, U32_T period[], U32_T wcet[], U32_T deadline[]);
-int utilization_100_test(U32_T numServices, U32_T period[], U32_T wcet[], U32_T deadline[]);
-
+int utilization_100_test(U32_T numServices, U32_T period[], U32_T wcet[]);
+int dm_quick_test(U32_T numServices, U32_T wcet[], U32_T period[], U32_T deadline[]);
 
 int main(void)
 { 
@@ -116,9 +116,9 @@ int main(void)
 		   ((1.0/2.0)*100.0 + (1.0/10.0)*100.0 + (2.0/15.0)*100.0));
 	numServices = 3;
     if(completion_time_feasibility(numServices, ex0_period, ex0_wcet, ex0_period) == TRUE)
-        printf("CT test FEASIBLE\n");
+        printf("FEASIBLE\n");
     else
-        printf("CT test INFEASIBLE\n");
+        printf("INFEASIBLE\n");
 
     if(rate_monotonic_least_upper_bound(numServices, ex0_period, ex0_wcet, ex0_period) == TRUE)
         printf("RM LUB FEASIBLE\n");
@@ -279,18 +279,18 @@ int main(void)
 		   ((1.0/2.0)*100.0 + (2.0/5.0)*100.0 + (1.0/10.0)*100.0));
 	numServices = 3;
     if(completion_time_feasibility(numServices, ex5_period, ex5_wcet, ex5_period) == TRUE)
-        printf("FEASIBLE\n");
+        printf("\nCompletion Time Test FEASIBLE\n");
     else
-        printf("INFEASIBLE\n");
+        printf("\nCompletion Time Test INFEASIBLE\n");
     if(scheduling_point_feasibility(numServices, ex5_period, ex5_wcet, ex5_period) == TRUE)
-        printf("FEASIBLE\n");
+        printf("Scheduling Point Test FEASIBLE\n");
     else
-        printf("INFEASIBLE\n");
+        printf("Scheduling Point Test INFEASIBLE\n");
     if(rate_monotonic_least_upper_bound(numServices, ex5_period, ex5_wcet, ex5_period) == TRUE)
         printf("RM LUB FEASIBLE\n");
     else
         printf("RM LUB INFEASIBLE\n");
-    if(utilization_100_test(numServices, ex5_period, ex5_wcet, ex5_period) == TRUE)
+    if(utilization_100_test(numServices, ex5_period, ex5_wcet) == TRUE)
         printf("EDF and LLF FEASIBLE\n");
     else
         printf("EDF and LLF INFEASIBLE\n");
@@ -301,18 +301,18 @@ int main(void)
 		   ((1.0/3.0)*100.0 + (2.0/5.0)*100.0 + (4.0/15.0)*100.0));
 	numServices = 3;
     if(completion_time_feasibility(numServices, ex7_period, ex7_wcet, ex7_period) == TRUE)
-        printf("FEASIBLE\n");
+        printf("\nCompletion Time Test FEASIBLE\n");
     else
-        printf("INFEASIBLE\n");
+        printf("\nCompletion Time Test INFEASIBLE\n");
     if(scheduling_point_feasibility(numServices, ex7_period, ex7_wcet, ex7_period) == TRUE)
-        printf("FEASIBLE\n");
+        printf("Scheduling Point Test FEASIBLE\n");
     else
-        printf("INFEASIBLE\n");
+        printf("Scheduling Point Test INFEASIBLE\n");
     if(rate_monotonic_least_upper_bound(numServices, ex7_period, ex7_wcet, ex7_period) == TRUE)
         printf("RM LUB FEASIBLE\n");
     else
         printf("RM LUB INFEASIBLE\n");
-    if(utilization_100_test(numServices, ex7_period, ex7_wcet, ex7_period) == TRUE)
+    if(utilization_100_test(numServices, ex7_period, ex7_wcet) == TRUE)
         printf("EDF and LLF FEASIBLE\n");
     else
         printf("EDF and LLF INFEASIBLE\n");
@@ -323,18 +323,18 @@ int main(void)
 		   ((1.0/2.0)*100.0 + (1.0/5.0)*100.0 + (1.0/7.0)*100.0 + (2.0/13.0)*100.0));
 	numServices = 4;
     if(completion_time_feasibility(numServices, ex8_period, ex8_wcet, ex8_period) == TRUE)
-        printf("FEASIBLE\n");
+        printf("\nCompletion Time Test FEASIBLE\n");
     else
-        printf("INFEASIBLE\n");
+        printf("\nCompletion Time Test INFEASIBLE\n");
     if(scheduling_point_feasibility(numServices, ex8_period, ex8_wcet, ex8_period) == TRUE)
-        printf("FEASIBLE\n");
+        printf("Scheduling Point Test FEASIBLE\n");
     else
-        printf("INFEASIBLE\n");
+        printf("Scheduling Point Test INFEASIBLE\n");
     if(rate_monotonic_least_upper_bound(numServices, ex8_period, ex8_wcet, ex8_period) == TRUE)
         printf("RM LUB FEASIBLE\n");
     else
         printf("RM LUB INFEASIBLE\n");
-    if(utilization_100_test(numServices, ex8_period, ex8_wcet, ex8_period) == TRUE)
+    if(utilization_100_test(numServices, ex8_period, ex8_wcet) == TRUE)
         printf("EDF and LLF FEASIBLE\n");
     else
         printf("EDF and LLF INFEASIBLE\n");
@@ -345,24 +345,27 @@ int main(void)
 		   ((1.0/6.0)*100.0 + (2.0/8.0)*100.0 + (4.0/12.0)*100.0 + (6.0/24.0)*100.0));
 	numServices = 4;
     if(completion_time_feasibility(numServices, ex9_period, ex9_wcet, ex9_period) == TRUE)
-        printf("FEASIBLE\n");
+        printf("\nCompletion Time Test FEASIBLE\n");
     else
-        printf("INFEASIBLE\n");
+        printf("\nCompletion Time Test INFEASIBLE\n");
     if(scheduling_point_feasibility(numServices, ex9_period, ex9_wcet, ex9_period) == TRUE)
-        printf("FEASIBLE\n");
+        printf("Scheduling Point Test FEASIBLE\n");
     else
-        printf("INFEASIBLE\n");
+        printf("Scheduling Point Test INFEASIBLE\n");
     if(rate_monotonic_least_upper_bound(numServices, ex9_period, ex9_wcet, ex9_period) == TRUE)
         printf("RM LUB FEASIBLE\n");
     else
         printf("RM LUB INFEASIBLE\n");
-    if(utilization_100_test(numServices, ex9_period, ex9_wcet, ex9_period) == TRUE)
+    if(utilization_100_test(numServices, ex9_period, ex9_wcet) == TRUE)
         printf("EDF and LLF FEASIBLE\n");
     else
         printf("EDF and LLF INFEASIBLE\n");
     printf("\n");
 
 //EXAMPLE 6
+printf("\n");
+printf("******** Completion Test, Scheduling Point, RM LUB, and DM Quick Test Feasibility Tests for Deadline Monotonic Sched 6\n\n");
+printf("Note the DM Quick test comes from equation 3.14 in the textbook.\n\n");
 printf("Ex-6 U=%4.2f%% (C1=1, C2=1, C3=1, C4=2; T1=2, T2=5, T3=7, T4=13; D1=2, D2=3, D3=7, D4=15): ",
 		   ((1.0/2.0)*100.0 + (1.0/5.0)*100.0 + (1.0/7.0)*100.0 + (2.0/13.0)*100.0));
 	numServices = 4;
@@ -370,13 +373,13 @@ printf("Ex-6 U=%4.2f%% (C1=1, C2=1, C3=1, C4=2; T1=2, T2=5, T3=7, T4=13; D1=2, D
     * shortest deadline has highest priority. Functions have been modified (well one line in sp function) to accomidate.
     */
     if(completion_time_feasibility(numServices, ex6_period, ex6_wcet, ex6_deadline) == TRUE)
-        printf("FEASIBLE\n");
+        printf("\nCompletion Time Test FEASIBLE\n");
     else
-        printf("INFEASIBLE\n");
+        printf("\nCompletion Time Test INFEASIBLE\n");
     if(scheduling_point_feasibility(numServices, ex6_period, ex6_wcet, ex6_deadline) == TRUE)
-        printf("FEASIBLE\n");
+        printf("Scheduling Point Test FEASIBLE\n");
     else
-        printf("INFEASIBLE\n");
+        printf("Scheduling Point Test INFEASIBLE\n");
     if(rate_monotonic_least_upper_bound(numServices, ex6_period, ex6_wcet, ex6_deadline) == TRUE)
         printf("RM LUB FEASIBLE\n");
     else
